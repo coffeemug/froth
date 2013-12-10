@@ -27,8 +27,12 @@ def branch():
         stack.append(i)
 def pop():
     stack.pop()
+def dup():
+    i = stack.pop()
+    stack.append(i)
+    stack.append(i)
 
-symbols = { 'add': add, 'sub': sub, 'mul': mul, 'div': div, 'apply': _apply, 'if': branch, 'pop': pop }
+symbols = { 'add': add, 'sub': sub, 'mul': mul, 'div': div, 'apply': _apply, 'if': branch, 'pop': pop, 'dup': dup }
 
 def _eval(word):
     # perhaps it's an int
