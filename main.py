@@ -5,8 +5,30 @@ stack = []
 
 def add():
     stack.append(stack.pop() + stack.pop())
+def sub():
+    i = stack.pop()
+    j = stack.pop()
+    stack.append(j - i)
+def mul():
+    stack.append(stack.pop() * stack.pop())
+def div():
+    i = stack.pop()
+    j = stack.pop()
+    stack.append(j / i)
+def _apply():
+    symbols[stack.pop()]()
+def branch():
+    i = stack.pop()
+    j = stack.pop()
+    k = stack.pop()
+    if k != 0:
+        stack.append(j)
+    else:
+        stack.append(i)
+def pop():
+    stack.pop()
 
-symbols = { 'add': add }
+symbols = { 'add': add, 'sub': sub, 'mul': mul, 'div': div, 'apply': _apply, 'if': branch, 'pop': pop }
 
 def _eval(word):
     # perhaps it's an int
@@ -15,8 +37,11 @@ def _eval(word):
         return
     except ValueError:
         pass
-    # nope. must be a function
-    symbols[word]()
+    # nope. must be a symbol
+    if word.startswith("'"):
+        stack.append(word[1:])
+    else:
+        symbols[word]()
 
 def repl():
     # evaluate whitespace separated words read from stdin
